@@ -6,6 +6,7 @@ import 'package:app/listenners/call_back_listeners.dart';
 import 'package:app/network/api_call.dart';
 import 'package:app/network/api_constants.dart';
 import 'package:app/network/method.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
@@ -156,10 +157,38 @@ class _UploadSelectLanguageState extends State<UploadSelectLanguage>
   }
 
   void callVoiceApi() async {
-    ApiCall.makeApiCall(ApiRequest.CALL_VOICE_TTS, null, Method.POST,
-        ApiConstants.CALL_VOICE_TTS, this);
+    final dio = Dio(); // Create a Dio instance
 
-    final url = ApiConstants.BASE_URL_LIVE;
+    final params = {
+      "text": _translatedText,
+      "voice_id": "f27d74e5-ea71-4697-be3e-f04bbd80c1a8"
+    };
+
+    final url = ApiConstants.BASE_URL_LIVE + ApiConstants.CALL_VOICE_TTS;
+
+    try {
+      final response = await dio.post(
+        url,
+        data: params,
+        options: Options(
+          headers: {
+            'Content-Type':
+                'application/json', // Set the content type if needed
+          },
+        ),
+      );
+
+      // Handle the response
+      onResponse(response.data, response.statusCode, ApiRequest.CALL_VOICE_TTS);
+    } on DioException catch (e) {
+      // Handle the error
+      if (e.response != null) {
+        onError(e.response!.data, e.response!.statusCode,
+            ApiRequest.CALL_VOICE_TTS);
+      } else {
+        onError(e.message ?? 'Unknown error', 500, ApiRequest.CALL_VOICE_TTS);
+      }
+    }
   }
 
   @override
