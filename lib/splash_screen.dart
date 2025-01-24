@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:app/base_class.dart';
-import 'package:app/sign_up_page.dart';
 import 'package:app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
+
+import 'ui/upload_select_lang.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _SplashScreenState extends BaseClass<SplashScreen> {
     Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const SignUpPage()),
+        MaterialPageRoute(builder: (context) => const UploadSelectLanguage()),
       );
     });
   }
@@ -29,7 +30,7 @@ class _SplashScreenState extends BaseClass<SplashScreen> {
       backgroundColor: AppTheme.colorPrimary,
       body: Center(
         child: Text(
-          'India Taxi Online',
+          'Just Listen',
           style: TextStyle(
             color: Colors.white,
             fontSize: 32,

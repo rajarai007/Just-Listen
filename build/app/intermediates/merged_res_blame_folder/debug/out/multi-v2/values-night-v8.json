@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.app-mergeDebugResources-41:/values-night-v8/values-night-v8.xml",
+            "outputFile": "com.example.app-mergeDebugResources-46:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
-                    "source": "/Users/silvergrey/.gradle/caches/transforms-3/3a04377ab98aaf9189ccddcb951bae89/transformed/appcompat-1.1.0/res/values-night-v8/values-night-v8.xml",
+                    "source": "/Users/silvergrey/.gradle/caches/transforms-3/f3e01c95a04b87be1a2f2ed87103c6d5/transformed/appcompat-1.6.1/res/values-night-v8/values-night-v8.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/silvergrey/Projects/India_Taxi_Online/android/app/src/main/res/values-night/styles.xml",
+                    "source": "/Users/silvergrey/Desktop/Just-Listen/android/app/src/main/res/values-night/styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",

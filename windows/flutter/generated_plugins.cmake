@@ -6,7 +6,6 @@ list(APPEND FLUTTER_PLUGIN_LIST
   connectivity_plus
   flutter_localization
   printing
-  syncfusion_pdfviewer_windows
   url_launcher_windows
 )
 
