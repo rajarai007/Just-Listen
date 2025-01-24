@@ -1,10 +1,18 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:app/listenners/call_back_listeners.dart';
+import 'package:app/network/api_call.dart';
+import 'package:app/network/api_constants.dart';
+import 'package:app/network/method.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
+
+import '../base_class.dart';
+import '../utils/app_constants.dart';
 
 class UploadSelectLanguage extends StatefulWidget {
   const UploadSelectLanguage({super.key});
@@ -13,7 +21,8 @@ class UploadSelectLanguage extends StatefulWidget {
   State<UploadSelectLanguage> createState() => _UploadSelectLanguageState();
 }
 
-class _UploadSelectLanguageState extends State<UploadSelectLanguage> {
+class _UploadSelectLanguageState extends State<UploadSelectLanguage>
+    implements ApiResponse {
   final _controller = TextEditingController();
   String _translatedText = '';
   String _extractedText = '';
@@ -78,6 +87,7 @@ class _UploadSelectLanguageState extends State<UploadSelectLanguage> {
               ElevatedButton(
                 onPressed: () {
                   translateText(_extractedText);
+                  callVoiceApi();
                 },
                 child: Text('Translate'),
               ),
@@ -143,5 +153,27 @@ class _UploadSelectLanguageState extends State<UploadSelectLanguage> {
     } finally {
       onDeviceTranslator.close();
     }
+  }
+
+  void callVoiceApi() async {
+    ApiCall.makeApiCall(ApiRequest.CALL_VOICE_TTS, null, Method.POST,
+        ApiConstants.CALL_VOICE_TTS, this);
+
+    final url = ApiConstants.BASE_URL_LIVE;
+  }
+
+  @override
+  void onError(String errorResponse, int responseCode, Enum requestCode) {
+    debugPrint('$requestCode:> $errorResponse');
+    // hideProgress(context);
+    final msg = json.decode(errorResponse)['message'];
+    // showSnackBar(msg, msgType: AppConstants.ERROR);
+  }
+
+  @override
+  void onResponse(String response, int responseCode, Enum requestCode) {
+    debugPrint('$requestCode:> $response');
+    log(response);
+    // hideProgress();
   }
 }

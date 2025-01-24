@@ -62,20 +62,9 @@ class ApiCall {
           break;
         case Method.POST:
           {
-            final apiEndPoint =
-                '${(requestCode == ApiRequest.GENERATE_AUTH_CODE || requestCode == ApiRequest.GET_UAE_PASS_PROFILE) ? baseUrl : ApiConstants.BASE_URL}$apiName';
-            debugPrint("POST Api: $apiEndPoint Params: ${jsonEncode(params)}");
-
-            Map<String, String> apiguardHeaders =
-                await APIGuard.getRequestHeaders(
-                    apiEndPoint, params != null ? jsonEncode(params) : '');
-            apiguardHeaders["content-Type"] = contentType;
-            apiguardHeaders["authorization"] = authorization ?? 'null';
-            log(jsonEncode(apiguardHeaders));
             dio
                 .post(apiName,
                     queryParameters: queryParameters,
-                    options: Options(headers: apiguardHeaders),
                     data: params != null ? jsonEncode(params) : null)
                 .then((value) async {
               // debugPrint(value.data.toString());
@@ -106,36 +95,6 @@ class ApiCall {
           break;
         case Method.DIO_POST:
           {
-            final apiEndPoint =
-                '${(requestCode == ApiRequest.GENERATE_AUTH_CODE || requestCode == ApiRequest.GET_UAE_PASS_PROFILE) ? baseUrl : ApiConstants.BASE_URL}$apiName';
-            debugPrint("POST Api: $apiEndPoint Params: ${jsonEncode(params)}");
-            Map<String, String> apiguardHeaders =
-                await APIGuard.getRequestHeaders(
-                    apiEndPoint, params != null ? jsonEncode(params) : '');
-            apiguardHeaders["content-Type"] = contentType;
-            apiguardHeaders["authorization"] = authorization ?? 'null';
-            apiguardHeaders['user-agent'] =
-                userAgent ?? (Platform.isAndroid ? 'Android' : 'IOS');
-            apiguardHeaders['x-app-version'] = xAppVersion ?? '';
-            log(jsonEncode(apiguardHeaders));
-
-            http
-                .post(Uri.parse(apiEndPoint),
-                    body: jsonEncode(params), headers: apiguardHeaders)
-                .then((response) async {
-              if (response.statusCode != 200) {
-                log('${response.statusCode} ${jsonDecode(response.body)}');
-              }
-              log(jsonEncode(response.headers));
-              apiResponse.onResponse(
-                  response.body, response.statusCode, requestCode);
-              log(jsonEncode(response.headers));
-              await APIGuard.parseResponseHeaders(response.headers);
-            }).onError((error, stackTrace) {
-              debugPrint('catchError Error.... ${error.toString()}');
-              apiResponse.onError(error.toString(), 300, requestCode);
-            });
-
             /*  dio
                 .post(apiName,
                     queryParameters: queryParameters,
